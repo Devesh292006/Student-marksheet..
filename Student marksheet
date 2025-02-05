@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marksheet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .marksheet {
+            border: 1px solid black;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .status-pass {
+            color: green;
+        }
+        .status-fail {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Marksheet</h1>
+    <label for="rollNumber">Enter Roll Number to Retrieve Marksheet: </label>
+    <input type="text" id="rollNumber" name="rollNumber">
+    <button onclick="searchStudent()">Search</button>
+
+    <div id="marksheet" class="marksheet" style="display: none;">
+        <h2>Marksheet</h2>
+        <p id="studentName"></p>
+        <p id="studentRollNo"></p>
+        <table>
+            <tr>
+                <th>Subject</th>
+                <th>Marks</th>
+            </tr>
+            <tr>
+                <td>Computer Science</td>
+                <td id="csMarks"></td>
+            </tr>
+            <tr>
+                <td>Maths</td>
+                <td id="mathsMarks"></td>
+            </tr>
+            <tr>
+                <td>Physics</td>
+                <td id="physicsMarks"></td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td id="totalMarks"></td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td id="status"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        const students = [
+            {name: "Sakshi Sonwane", roll_no: "001", cs_marks: 85, maths_marks: 90, physics_marks: 78},
+            {name: "Babita Lute", roll_no: "002", cs_marks: 90, maths_marks: 30, physics_marks: 88},
+            {name: "Madhuri Bawankule", roll_no: "003", cs_marks: 75, maths_marks: 80, physics_marks: 70},
+            {name: "Devesh Zade", roll_no: "004", cs_marks: 88, maths_marks: 92, physics_marks: 84},
+            {name: "Tushar Kakate", roll_no: "005", cs_marks: 92, maths_marks: 89, physics_marks: 29},
+            {name: "Hemant Tak", roll_no: "006", cs_marks: 85, maths_marks: 90, physics_marks: 78},
+            {name: "Sakshi Kadu", roll_no: "007", cs_marks: 90, maths_marks: 30, physics_marks: 88},
+            {name: "Pradhanya Raut", roll_no: "008", cs_marks: 75, maths_marks: 80, physics_marks: 70},
+            {name: "Nayan Dayare", roll_no: "009", cs_marks: 88, maths_marks: 92, physics_marks: 84},
+            {name: "Aishwarya Dhurve", roll_no: "010", cs_marks: 92, maths_marks: 89, physics_marks: 29},
+            // Add all other students here...
+        ];
+
+        function searchStudent() {
+            const rollNoToSearch = document.getElementById('rollNumber').value;
+            const student = students.find(s => s.roll_no === rollNoToSearch);
+
+            if (student) {
+                displayMarksheet(student);
+            } else {
+                alert("Student with Roll No. " + rollNoToSearch + " not found.");
+            }
+        }
+
+        function displayMarksheet(student) {
+            document.getElementById('marksheet').style.display = 'block';
+
+            document.getElementById('studentName').innerText = "Student Name: " + student.name;
+            document.getElementById('studentRollNo').innerText = "Roll No.: " + student.roll_no;
+            document.getElementById('csMarks').innerText = student.cs_marks;
+            document.getElementById('mathsMarks').innerText = student.maths_marks;
+            document.getElementById('physicsMarks').innerText = student.physics_marks;
+
+            const totalMarks = student.cs_marks + student.maths_marks + student.physics_marks;
+            document.getElementById('totalMarks').innerText = totalMarks;
+
+            const isPass = student.cs_marks >= 35 && student.maths_marks >= 35 && student.physics_marks >= 35;
+            const statusElement = document.getElementById('status');
+            statusElement.innerText = isPass ? "Pass" : "Fail";
+            statusElement.className = isPass ? "status-pass" : "status-fail";
+        }
+    </script>
+</body>
+</html>
